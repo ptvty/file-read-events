@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": false,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es5",
+        "lib": [ "es2015" ],
+        "outDir": "dist",
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "sourceMap": true,
+        "declaration": true,
+    },
+    "files": [
+        "./src/index.ts",
+        "./src/postinstall.ts"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false
+}
