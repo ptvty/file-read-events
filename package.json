@@ -4,12 +4,20 @@
   "description": "Watch for detailed read events on the given file",
   "main": "dist/index.js",
   "scripts": {
-    "postinstall": "node dist/postinstall.js",
+    "postinstall": "tsc & node dist/postinstall.js",
     "build": "eslint src test && tsc",
     "lint": "eslint src test",
     "test": "jest"
   },
-  "keywords": ["fs", "watch", "file", "windows", "events", "log", "test"],
+  "keywords": [
+    "fs",
+    "watch",
+    "file",
+    "windows",
+    "events",
+    "log",
+    "test"
+  ],
   "author": "ptvty",
   "license": "MIT",
   "devDependencies": {
@@ -17,7 +25,6 @@
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
-    "ts-loader": "^9.5.1",
     "typescript": "^5.4.3",
     "typescript-eslint": "^7.5.0",
     "webpack": "^5.91.0",
