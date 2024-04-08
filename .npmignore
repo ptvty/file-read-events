@@ -1,0 +1,9 @@
+.*
+**/tsconfig.json
+bin/**/*
+!bin/.gitignore
+coverage
+node_modules
+src
+example
+.vscode
