@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { createReadStream } from 'fs';
 import { FileReadEvents } from "../src/FileReadEvents";
-import { READ_EVENT, TEST_TARGET_PATH } from "../src/constants";
+import { READY_EVENT, READ_EVENT, TEST_TARGET_PATH } from "../src/constants";
 
 
 describe('e2e', () => {
@@ -19,10 +19,12 @@ describe('e2e', () => {
         fileEvents.on(READ_EVENT, callback);
         fileEvents.start();
 
-        // wait a second for the executable to start
-        setTimeout(() => {
+        const readyCallbackMock = jest.fn();
+        fileEvents.on(READY_EVENT, () => {
+            readyCallbackMock();
+            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 0, end: 0 }).on("data", () => {});
-        }, 1000);
+        });
     });
 
     it('should emit correct isTargetByte when the target byte is read', (done) => {
@@ -35,10 +37,13 @@ describe('e2e', () => {
         });
         fileEvents.start();
 
+        const readyCallbackMock = jest.fn();
         // read the third byte of the file via node fs
-        setTimeout(() => {
+        fileEvents.on(READY_EVENT, () => {
+            readyCallbackMock();
+            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 2, end: 2 }).on("data", () => {});
-        }, 1000);
+        });
     });
 
     it('should emit correct isTargetByte when a non target byte is read', (done) => {
@@ -51,9 +56,13 @@ describe('e2e', () => {
         });
         fileEvents.start();
 
+        const readyCallbackMock = jest.fn();
         // read the third byte of the file via node fs
-        setTimeout(() => {
+        fileEvents.on(READY_EVENT, () => {
+            readyCallbackMock();
+            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 1, end: 1 }).on("data", () => {});
-        }, 1000);
+        });
     });
+
 });
