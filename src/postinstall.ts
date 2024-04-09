@@ -1,12 +1,14 @@
 import { get } from 'https';
-import { createWriteStream } from 'fs';
-import { BINARY_PATH, BINARY_URL } from './constants';
+import { dirname } from 'path';
+import { createWriteStream, mkdirSync } from 'fs';
+import { EXECUTABLE_PATH, EXECUTABLE_URL } from './constants';
 
 function downloadStandaloneBinary() {
-    const file = createWriteStream(BINARY_PATH);
-    console.log(`Post-install: Downloading standalone binary... ${BINARY_URL}`);
-    get(BINARY_URL, (response) => {
-        const realBinaryUrl = response.headers?.location || BINARY_URL;
+    mkdirSync(dirname(EXECUTABLE_PATH));
+    const file = createWriteStream(EXECUTABLE_PATH);
+    console.log(`Post-install: Downloading standalone binary... ${EXECUTABLE_URL}`);
+    get(EXECUTABLE_URL, (response) => {
+        const realBinaryUrl = response.headers?.location || EXECUTABLE_URL;
         console.log(`Post-install: Downloading standalone binary... ${realBinaryUrl}`);
         get(realBinaryUrl, (response) => {
             console.log(`Post-install: Downloading standalone binary...`);
