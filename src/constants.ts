@@ -1,5 +1,5 @@
-export const BINARY_URL = 'https://github.com/ptvty/WinFileReadEvents/releases/download/v0.2.0/WinFileReadEvents.exe';
-export const BINARY_PATH = 'bin/WinFileReadEvents.exe';
+export const EXECUTABLE_URL = 'https://github.com/ptvty/WinFileReadEvents/releases/download/v0.2.0/WinFileReadEvents.exe';
+export const EXECUTABLE_PATH = 'executable/WinFileReadEvents.exe';
 export const TEST_TARGET_PATH = './test/target.test.txt';
 
 export const READY_EVENT = 'ready';

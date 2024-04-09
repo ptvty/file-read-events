@@ -1,7 +1,6 @@
 .*
 **/tsconfig.json
-bin/**/*
-!bin/.gitignore
+executable/**/*
 coverage
 node_modules
 src

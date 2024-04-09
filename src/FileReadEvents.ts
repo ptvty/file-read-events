@@ -1,7 +1,7 @@
 import { EventEmitter } from "tsee";
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import { FileReadEventEmitterTypes } from './types';
-import { BINARY_PATH, CONSOLE_TAGS, ERROR_EVENT, EXIT_EVENT, READY_EVENT, READ_EVENT } from "./constants";
+import { EXECUTABLE_PATH, CONSOLE_TAGS, ERROR_EVENT, EXIT_EVENT, READY_EVENT, READ_EVENT } from "./constants";
 
 export class FileReadEvents extends EventEmitter<FileReadEventEmitterTypes> {
     private filePath: string;
@@ -15,7 +15,7 @@ export class FileReadEvents extends EventEmitter<FileReadEventEmitterTypes> {
     }
 
     start() {
-        this.child = spawn(BINARY_PATH, [this.filePath]);
+        this.child = spawn(EXECUTABLE_PATH, [this.filePath]);
         this.child.on('exit', () => {
             this.emit(EXIT_EVENT);
         });
