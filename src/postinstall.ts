@@ -4,7 +4,11 @@ import { createWriteStream, mkdirSync } from 'fs';
 import { EXECUTABLE_PATH, EXECUTABLE_URL } from './constants';
 
 function downloadStandaloneBinary() {
-    mkdirSync(dirname(EXECUTABLE_PATH));
+    try {
+        mkdirSync(dirname(EXECUTABLE_PATH));
+    } catch (e) {
+        // dir already exists (e.code === 'EEXIST')
+    }
     const file = createWriteStream(EXECUTABLE_PATH);
     console.log(`Post-install: Downloading standalone binary... ${EXECUTABLE_URL}`);
     get(EXECUTABLE_URL, (response) => {
