@@ -21,6 +21,9 @@ export class FileReadEvents extends EventEmitter<FileReadEventEmitterTypes> {
         this.child.on('exit', () => {
             this.emit(EXIT_EVENT);
         });
+        this.child.on('error', (e) => {
+            this.emit(ERROR_EVENT, e.message);
+        });
         this.child.stdout.on('data', (data) => {
             data = `${data}`.trim();            
             const lines = data.split('\n');            
@@ -34,7 +37,7 @@ export class FileReadEvents extends EventEmitter<FileReadEventEmitterTypes> {
         this.child?.kill();
     }
 
-    processLine (line: string) {        
+    processLine (line: string) {
         if (line.startsWith(CONSOLE_TAGS.EVENT)) {            
             const lineParts = line.substring(CONSOLE_TAGS.EVENT.length).split('|');
             const offset = +lineParts[0];
