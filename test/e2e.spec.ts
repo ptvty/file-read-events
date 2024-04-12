@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { createReadStream } from 'fs';
 import { FileReadEvents } from "../src/FileReadEvents";
-import { READY_EVENT, READ_EVENT, TEST_TARGET_PATH } from "../src/constants";
+import { ERROR_EVENT, READY_EVENT, READ_EVENT, TEST_TARGET_PATH } from "../src/constants";
 
 
 describe('e2e', () => {
@@ -9,10 +9,8 @@ describe('e2e', () => {
 
     it('should emit read event when the file is read', (done) => {
         const fileEvents = new FileReadEvents(absolutePath);
-        const callbackMock = jest.fn();
         const callback = () => {
-            callbackMock();
-            expect(callbackMock).toHaveBeenCalled();
+            expect(readyCallbackMock).toHaveBeenCalled();
             fileEvents.end();
             done();
         };
@@ -22,8 +20,10 @@ describe('e2e', () => {
         const readyCallbackMock = jest.fn();
         fileEvents.on(READY_EVENT, () => {
             readyCallbackMock();
-            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 0, end: 0 }).on("data", () => {});
+        });
+        fileEvents.on(ERROR_EVENT, (e) => {
+            done(e);
         });
     });
 
@@ -31,6 +31,7 @@ describe('e2e', () => {
         // watch the third byte of the file
         const fileEvents = new FileReadEvents(absolutePath, 2);
         fileEvents.on(READ_EVENT, (e) => {
+            expect(readyCallbackMock).toHaveBeenCalled();
             expect(e.isTargetByte).toBe(true);
             fileEvents.end();
             done();
@@ -41,8 +42,10 @@ describe('e2e', () => {
         // read the third byte of the file via node fs
         fileEvents.on(READY_EVENT, () => {
             readyCallbackMock();
-            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 2, end: 2 }).on("data", () => {});
+        });
+        fileEvents.on(ERROR_EVENT, (e) => {
+            done(e);
         });
     });
 
@@ -50,6 +53,7 @@ describe('e2e', () => {
         // watch the third byte of the file
         const fileEvents = new FileReadEvents(absolutePath, 0);
         fileEvents.on(READ_EVENT, (e) => {
+            expect(readyCallbackMock).toHaveBeenCalled();
             expect(e.isTargetByte).toBe(false);
             fileEvents.end();
             done();
@@ -60,8 +64,10 @@ describe('e2e', () => {
         // read the third byte of the file via node fs
         fileEvents.on(READY_EVENT, () => {
             readyCallbackMock();
-            expect(readyCallbackMock).toHaveBeenCalled();
             createReadStream(absolutePath, { start: 1, end: 1 }).on("data", () => {});
+        });
+        fileEvents.on(ERROR_EVENT, (e) => {
+            done(e);
         });
     });
 
