@@ -13,8 +13,7 @@
         "declaration": true,
     },
     "files": [
-        "./src/index.ts",
-        "./src/postinstall.ts"
+        "./src/index.ts"
     ],
     "compileOnSave": false,
     "buildOnSave": false

@@ -19,7 +19,7 @@ jobs:
       - name: Run tests and collect coverage
         run: npm test -- --coverage
       - name: Build
-        run: npm run build
+        run: npm run pack
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

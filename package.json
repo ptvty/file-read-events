@@ -3,9 +3,15 @@
   "version": "0.2.1",
   "description": "Watch for detailed read events on the given file",
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "executable"
+  ],
   "scripts": {
-    "postinstall": "tsc & node dist/postinstall.js",
+    "prepack": "NODE_ENV=production npm run build",
+    "prebuild": "tsx prebuild.ts",
     "build": "eslint src test && tsc",
+    "dev": "NODE_ENV=development npm run build",
     "lint": "eslint src test",
     "test": "jest"
   },
@@ -25,6 +31,7 @@
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
+    "tsx": "^4.7.3",
     "typescript": "^5.4.3",
     "typescript-eslint": "^7.5.0",
     "webpack": "^5.91.0",
